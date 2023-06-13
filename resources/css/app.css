@@ -1,3 +1,125 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    color-scheme: dark;
+}
+
+@layer base {
+    /* Ring to all focusable elements */
+    a[href],
+    button:not([.btn-primary-outline]),
+    input,
+    textarea,
+    select,
+    details,
+    [tabindex]:not([tabindex='-1']) {
+        @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 focus:ring-offset-surface-50 dark:focus:ring-offset-surface-900 dark:focus:ring-primary-300;
+    }
+
+    a[href]:focus-visible {
+        @apply outline-none ring-2 ring-offset-2 ring-primary-500 ring-offset-surface-50 dark:ring-offset-surface-900 dark:ring-primary-300;
+    }
+
+    /* class for dark light transition */
+    .transition-colors-500 {
+        @apply transition-colors duration-500;
+    }
+
+    .body-bg-default {
+        @apply bg-surface-50 text-surface-900 dark:bg-surface-900 dark:text-surface-50;
+        transition-property: color, background-color, border-color,
+            text-decoration-color, fill, stroke;
+        transition-duration: 500ms;
+        background-image: none;
+    }
+}
+
+@layer components {
+    /* Buttons */
+    .base-btn {
+        @apply font-bold py-2 px-4 rounded-md;
+        @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-surface-900/0;
+    }
+
+    .btn {
+        @apply base-btn;
+        @apply bg-transparent hover:bg-surface-600/10 text-surface-900;
+        @apply dark:bg-surface-50/0 dark:hover:bg-surface-50/10 dark:text-surface-50;
+        @apply active:bg-surface-900/20 dark:active:bg-surface-50/20;
+        @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 focus:ring-offset-surface-50 dark:focus:ring-offset-surface-900 dark:focus:ring-primary-300;
+    }
+
+    .btn-link {
+        @apply btn text-primary-800 dark:text-primary-200 underline;
+    }
+
+    .btn-primary {
+        @apply btn bg-primary-500 text-on-primary-500 hover:bg-primary-400;
+        @apply active:bg-primary-700;
+        @apply disabled:hover:bg-primary-500;
+    }
+
+    .btn-primary-outline {
+        @apply base-btn outline outline-2 outline-primary-500 text-primary-500 dark:outline-primary-300 dark:text-primary-300 hover:bg-primary-50/5;
+        @apply active:bg-primary-100;
+        @apply disabled:hover:bg-none;
+        /* @apply focus:!outline focus:!outline-2 focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 focus:ring-offset-transparent dark:focus:ring-offset-transparent dark:focus:ring-primary-300; */
+        @apply focus:outline-double focus:outline-4;
+    }
+
+    .btn-secondary {
+        @apply btn bg-secondary-500 text-on-secondary-500 hover:bg-secondary-400;
+        @apply active:bg-secondary-700;
+        @apply disabled:hover:bg-secondary-500;
+        @apply focus:ring-secondary-500 dark:focus:ring-secondary-300;
+    }
+
+    .btn-success {
+        @apply btn bg-success-500 text-on-success-500 hover:bg-success-400;
+        @apply active:bg-success-700;
+        @apply disabled:hover:bg-success-500;
+        @apply focus:ring-success-500 dark:focus:ring-success-300;
+    }
+
+    .btn-warning {
+        @apply btn bg-warning-500 text-on-warning-500 hover:bg-warning-400;
+        @apply active:bg-warning-700;
+        @apply disabled:hover:bg-warning-500;
+        @apply focus:ring-warning-500 dark:focus:ring-warning-300;
+    }
+
+    .btn-error {
+        @apply btn bg-error-500 text-on-error-500 hover:bg-error-400;
+        @apply active:bg-error-700;
+        @apply disabled:hover:bg-error-500;
+        @apply focus:ring-error-500 dark:focus:ring-error-300;
+    }
+
+    .btn-info {
+        @apply btn bg-info-500 text-on-info-500 hover:bg-info-400;
+        @apply active:bg-info-700;
+        @apply disabled:hover:bg-info-500;
+        @apply focus:ring-info-500 dark:focus:ring-info-300;
+    }
+
+    .btn-contrast {
+        @apply btn bg-surface-900 text-on-surface-900 hover:bg-surface-800;
+        @apply dark:bg-surface-50 dark:text-on-surface-50 dark:hover:bg-surface-300;
+        @apply active:bg-surface-900 dark:active:bg-surface-50;
+        @apply disabled:hover:bg-surface-900 dark:disabled:hover:bg-surface-50;
+        @apply focus:ring-surface-900 dark:focus:ring-surface-50;
+    }
+
+    /* Inputs */
+    input:not([type='checkbox']):not([type='radio']):not([type='file']).input,
+    select.input,
+    textarea.input {
+        @apply block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm dark:border-gray-500;
+        @apply bg-surface-50/5 text-surface-900 dark:text-surface-50;
+        @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 focus:ring-offset-surface-50 dark:focus:ring-offset-surface-900 dark:focus:ring-primary-300;
+        /* @apply dark:focus:border-surface-50; */
+        /* @apply dark:focus:ring-offset-surface-900; */
+    }
+}

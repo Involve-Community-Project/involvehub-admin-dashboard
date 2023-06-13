@@ -1,13 +1,20 @@
 <script lang="ts" setup>
-import { RouterLink, RouterView } from 'vue-router';
-import HelloWorld from '@/js/components/HelloWorld.vue';
+import { RouterView } from 'vue-router';
 </script>
 
 <template>
-    <HelloWorld msg="You did it!" />
-    <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-    </nav>
-    <RouterView />
+    <RouterView v-slot="{ Component }">
+        <Transition
+            enter-active-class="duration-300 ease-in-out"
+            enter-from-class="transform opacity-0"
+            enter-to-class="opacity-100"
+            leave-active-class="duration-300 ease-in-out"
+            leave-from-class="opacity-100"
+            leave-to-class="transform opacity-0"
+            mode="out-in"
+            appear
+        >
+            <component :is="Component" />
+        </Transition>
+    </RouterView>
 </template>

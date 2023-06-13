@@ -7,18 +7,54 @@ const router = createRouter({
     routes: [
         {
             path: '/',
-            name: 'home',
-            component: HomeView,
+            name: 'auth',
+            component: () => import('@/js/pages/AuthLayout.vue'),
+            redirect: '/login',
+            children: [
+                {
+                    path: '/login',
+                    name: 'login',
+                    component: () => import('@/js/pages/LoginPage.vue'),
+                },
+                {
+                    path: '/forgot-password',
+                    name: 'forgot-password',
+                    component: () =>
+                        import('@/js/pages/ForgotPasswordPage.vue'),
+                },
+            ],
         },
         {
-            path: '/about',
-            name: 'about',
-            // route level code-splitting
-            // this generates a separate chunk (About.[hash].js) for this route
-            // which is lazy-loaded when the route is visited.
-            component: () => import('@/js/views/AboutView.vue'),
+            path: '/',
+            name: 'home',
+            component: () => import('@/js/pages/DashboardLayout.vue'),
+            redirect: '/dashboard',
+            children: [
+                {
+                    path: '/dashboard',
+                    name: 'dashboard',
+                    component: () => import('@/js/pages/DashboardPage.vue'),
+                },
+                {
+                    path: '/companies',
+                    name: 'companies',
+                    component: () => import('@/js/pages/CompaniesPage.vue'),
+                },
+                {
+                    path: '/account',
+                    name: 'account',
+                    component: () => import('@/js/pages/AccountPage.vue'),
+                },
+            ],
+        },
+        {
+            path: '/style-guide',
+            name: 'style-guide',
+            component: () => import('@/js/views/StyleGuideView.vue'),
         },
     ],
 });
+
+// router.beforeEach((to, from, next) => {});
 
 export default router;
