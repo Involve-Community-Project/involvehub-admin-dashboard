@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import HomeView from '@/js/views/HomeView.vue';
+import AuthLayout from '@/js/layouts/AuthLayout.vue';
+import DashboardLayout from '@/js/layouts/DashboardLayout.vue';
 
 const router = createRouter({
     // history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,7 +9,7 @@ const router = createRouter({
         {
             path: '/',
             name: 'auth',
-            component: () => import('@/js/pages/AuthLayout.vue'),
+            component: AuthLayout,
             redirect: '/login',
             children: [
                 {
@@ -27,7 +28,7 @@ const router = createRouter({
         {
             path: '/',
             name: 'home',
-            component: () => import('@/js/pages/DashboardLayout.vue'),
+            component: DashboardLayout,
             redirect: '/dashboard',
             children: [
                 {

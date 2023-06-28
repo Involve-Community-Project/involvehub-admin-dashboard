@@ -10,7 +10,7 @@ let submitEnabled = computed(() => {
     return email.value.length == 0;
 });
 
-const submit = (event: Event) => {
+const submit = () => {
     console.log('submit');
 };
 

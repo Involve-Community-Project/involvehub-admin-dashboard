@@ -1,36 +1,33 @@
 <script lang="ts" setup>
 import InvolveHubTextLogo from '../components/logos/InvolveHubTextLogo.vue';
 import IsotypeLogo from '../components/logos/IsotypeLogo.vue';
+import { IconBuildingLine } from '@iconify-prerendered/vue-clarity';
 
 const menuItems = [
     {
         item: 1,
         text: 'Dashboard',
-        route: '#',
-        active: true,
+        route: '/dashboard',
     },
     {
         item: 2,
         text: 'Companies',
-        route: '#',
-        active: false,
+        route: '/companies',
     },
     {
         item: 3,
         text: 'Account',
-        route: '#',
-        active: false,
+        route: '/account',
     },
     {
         item: 4,
         text: 'Logout',
-        route: '#',
-        active: false,
+        route: '/logout',
     },
 ];
 </script>
 <template>
-    <div class="main-container w-full h-full">
+    <div class="grid grid-cols-[22rem,1fr] grid-rows-[1fr] w-full h-full">
         <nav
             class="sidebar-menu shadow-uniform-xs dark:shadow-surface-50/20 p-3 flex flex-col justify-between"
         >
@@ -46,8 +43,9 @@ const menuItems = [
                 <span class="text-base font-normal">SuperAdmin User 1</span>
             </div>
             <div
-                class="w-full text-center p-2 rounded-md bg-primary-50 dark:bg-primary-300/10 text-primary dark:text-primaryDim-300 font-semibold mt-6"
+                class="w-full text-center p-2 rounded-md bg-primary-50 dark:bg-primary-300/10 text-primary dark:text-primaryDim-300 font-semibold mt-6 flex items-center justify-center gap-3"
             >
+                <IconBuildingLine class="w-auto h-5" />
                 <span>Super Admin</span>
             </div>
             <div class="w-full mt-6">
@@ -57,17 +55,12 @@ const menuItems = [
                         v-for="item in menuItems"
                         :key="item.item"
                     >
-                        <a
-                            href="#"
-                            class="block w-full py-2 px-9 rounded-lg font-normal border-l-4"
-                            :class="{
-                                'bg-surface-500/10 text-primary dark:text-primaryDim-300 border-primary':
-                                    item.active,
-                                'border-transparent': !item.active,
-                            }"
+                        <RouterLink
+                            :to="item.route"
+                            class="block w-full py-2 px-9 rounded-lg font-normal border-l-4 border-transparent"
+                            active-class="bg-surface-500/10 text-primary dark:text-primaryDim-300 !border-primary"
+                            >{{ item.text }}</RouterLink
                         >
-                            {{ item.text }}
-                        </a>
                     </li>
                 </ul>
             </div>
@@ -77,28 +70,25 @@ const menuItems = [
             </div>
         </nav>
         <header class="mobile-header sm:hidden"></header>
-        <main class="main-content p-6">
-            <div class="w-full px-3 py-3 border-b dark:border-surface-600">
-                <h1 class="text-3xl font-bold">Dashboard</h1>
-            </div>
+        <main class="main-content col-span-1 p-6">
+            <RouterView v-slot="{ Component, route }">
+                <Transition
+                    enter-active-class="duration-300 ease-in-out"
+                    enter-from-class="transform opacity-0"
+                    enter-to-class="opacity-100"
+                    leave-active-class="duration-300 ease-in-out"
+                    leave-from-class="opacity-100"
+                    leave-to-class="transform opacity-0"
+                    mode="out-in"
+                    appear
+                >
+                    <div class="w-full" :key="route.path">
+                        <component :is="Component" />
+                    </div>
+                </Transition>
+            </RouterView>
         </main>
     </div>
 </template>
 <style lang="css" scoped>
-.main-container {
-    display: grid;
-    grid-template-columns: 22rem 1fr 1fr;
-    grid-template-rows: 1fr;
-    gap: 0px 0px;
-    grid-auto-flow: row;
-    grid-template-areas: 'sidebar-menu main-content main-content';
-}
-
-.main-content {
-    grid-area: main-content;
-}
-
-.sidebar-menu {
-    grid-area: sidebar-menu;
-}
 </style>

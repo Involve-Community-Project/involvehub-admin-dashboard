@@ -1,14 +1,18 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
+import { IconRingResize } from '@iconify-prerendered/vue-svg-spinners';
+import { login } from '../../api/auth';
+import IHButton from '../atoms/IHButton.vue';
 
 const router = useRouter();
 
 let email = ref('');
 let password = ref('');
+let loading = ref(false);
 
 let submitEnabled = computed(() => {
-    return email.value.length == 0 || password.value.length == 0;
+    return email.value.length > 0 && password.value.length > 0;
 });
 
 const submit = (event: Event) => {
@@ -16,7 +20,21 @@ const submit = (event: Event) => {
     console.log(event);
     console.log(email, password);
 
-    router.push({ name: 'dashboard' });
+    loading.value = true;
+    login(email.value, password.value)
+        .then((response) => {
+            console.log(response);
+            // router.push({ name: 'dashboard' });
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+        .finally(() => {
+            console.log('finally');
+            loading.value = false;
+        });
+
+    // router.push({ name: 'dashboard' });
 };
 </script>
 
@@ -26,8 +44,8 @@ const submit = (event: Event) => {
         class="flex flex-col items-center justify-center w-full max-w-2xl mt-4"
     >
         <input
-            type="text"
-            class="input mb-4"
+            type="email"
+            class="input peer mb-4"
             placeholder="Email"
             v-model="email"
             required
@@ -39,13 +57,16 @@ const submit = (event: Event) => {
             v-model="password"
             required
         />
-        <button
+        <IHButton
             type="submit"
-            class="btn btn-primary w-full"
-            :disabled="submitEnabled"
+            class="w-full"
+            variant="primary"
+            :disabled="!submitEnabled"
+            :loading="loading"
+            loading-position="cover"
         >
             Login
-        </button>
+        </IHButton>
         <RouterLink
             to="/forgot-password"
             class="text-center text-base font-normal mt-2"

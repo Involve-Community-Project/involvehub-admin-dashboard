@@ -11,10 +11,10 @@ import InvolveHubTextLogo from '../components/logos/InvolveHubTextLogo.vue';
             <div class="w-full flex flex-col items-center justify-center">
                 <InvolveHubTextLogo class="w-60 h-auto max-w-full" />
                 <h1 class="text-center text-lg font-semibold mt-6">
-                    Super Admin
+                    Forget Password
                 </h1>
                 <h2 class="text-center text-base font-normal">
-                    Forgot your password?
+                    Please enter the email address
                 </h2>
             </div>
         </template>
