@@ -1,0 +1,11 @@
+/node_modules
+/public/build
+/public/hot
+/public/vendor
+/public/storage
+/storage/*.key
+/vendor
+/.fleet
+/.idea
+/.vscode
+
