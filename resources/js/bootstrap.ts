@@ -15,11 +15,10 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  */
 
 import Echo from 'laravel-echo';
-import * as P from 'pusher-js';
+import Pusher from 'pusher-js';
 
-const Pusher = P;
-
-const echo = new Echo({
+export const pusher = Pusher;
+export const echo = new Echo({
     broadcaster: 'pusher',
     key: import.meta.env.VITE_PUSHER_APP_KEY,
     wsHost: import.meta.env.VITE_PUSHER_HOST
