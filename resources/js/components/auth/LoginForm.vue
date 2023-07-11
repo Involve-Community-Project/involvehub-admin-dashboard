@@ -1,11 +1,8 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
-import { RouterLink, useRouter } from 'vue-router';
-import { IconRingResize } from '@iconify-prerendered/vue-svg-spinners';
+import { RouterLink } from 'vue-router';
 import { login } from '../../api/auth';
 import IHButton from '../atoms/IHButton.vue';
-
-const router = useRouter();
 
 let email = ref('');
 let password = ref('');
@@ -33,8 +30,6 @@ const submit = (event: Event) => {
             console.log('finally');
             loading.value = false;
         });
-
-    // router.push({ name: 'dashboard' });
 };
 </script>
 
