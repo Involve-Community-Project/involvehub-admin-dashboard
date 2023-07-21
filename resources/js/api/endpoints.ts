@@ -1,5 +1,6 @@
 const endPoints = {
     login_url: '/api/login',
+    refresh_token_url: '/api/refresh-token',
     logout_url: '/api/logout',
     check_auth_url: '/api/check-auth',
     register_url: '/api/register',
@@ -9,6 +10,7 @@ const endPoints = {
 };
 
 export const login_url = endPoints.login_url;
+export const refresh_token_url = endPoints.refresh_token_url;
 export const logout_url = endPoints.logout_url;
 export const check_auth_url = endPoints.check_auth_url;
 export const register_url = endPoints.register_url;
