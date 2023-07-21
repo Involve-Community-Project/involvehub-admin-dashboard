@@ -70,7 +70,7 @@ return [
     |
     */
 
-    'middleware' => ['web', 'auth', 'verified', 'horizon'],
+    'middleware' => ['web', 'auth', 'verified'],
 
     /*
     |--------------------------------------------------------------------------

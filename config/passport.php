@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'guard' => 'web',
+    'guard' => 'api',
 
     /*
     |--------------------------------------------------------------------------
@@ -57,6 +57,14 @@ return [
     'personal_access_client' => [
         'id' => env('PASSPORT_PERSONAL_ACCESS_CLIENT_ID'),
         'secret' => env('PASSPORT_PERSONAL_ACCESS_CLIENT_SECRET'),
+    ],
+
+    'password_client' => [
+        'web_app' => [
+            'id' => env('PASSPORT_WEBAPP_CLIENT_ID'),
+            'secret' => env('PASSPORT_WEBAPP_CLIENT_SECRET'),
+            'redirect' => env('PASSPORT_WEBAPP_CLIENT_REDIRECT_URI'),
+        ],
     ],
 
 ];
