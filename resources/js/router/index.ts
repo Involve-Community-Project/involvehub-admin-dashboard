@@ -1,53 +1,14 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import AuthLayout from '@/js/layouts/AuthLayout.vue';
-import DashboardLayout from '@/js/layouts/DashboardLayout.vue';
+import { authRoutes } from './auth-routes';
+import { dashboardRoutes } from './dashboard-routes';
+import { isAuthenticated } from '../api/auth';
 
 const router = createRouter({
     // history: createWebHistory(import.meta.env.BASE_URL),
     history: createWebHashHistory(),
     routes: [
-        {
-            path: '/',
-            name: 'auth',
-            component: AuthLayout,
-            redirect: '/login',
-            children: [
-                {
-                    path: '/login',
-                    name: 'login',
-                    component: () => import('@/js/pages/LoginPage.vue'),
-                },
-                {
-                    path: '/forgot-password',
-                    name: 'forgot-password',
-                    component: () =>
-                        import('@/js/pages/ForgotPasswordPage.vue'),
-                },
-            ],
-        },
-        {
-            path: '/',
-            name: 'home',
-            component: DashboardLayout,
-            redirect: '/dashboard',
-            children: [
-                {
-                    path: '/dashboard',
-                    name: 'dashboard',
-                    component: () => import('@/js/pages/DashboardPage.vue'),
-                },
-                {
-                    path: '/companies',
-                    name: 'companies',
-                    component: () => import('@/js/pages/CompaniesPage.vue'),
-                },
-                {
-                    path: '/account',
-                    name: 'account',
-                    component: () => import('@/js/pages/AccountPage.vue'),
-                },
-            ],
-        },
+        authRoutes,
+        dashboardRoutes,
         {
             path: '/style-guide',
             name: 'style-guide',
@@ -56,6 +17,24 @@ const router = createRouter({
     ],
 });
 
-// router.beforeEach((to, from, next) => {});
+router.beforeEach(async (to, from, next) => {
+    const reqAuth = to.matched.some((record) => record.meta.requiresAuth);
+    const reqGuest = to.matched.some((record) => record.meta.requiresGuest);
+
+    if (!reqAuth && !reqGuest) {
+        next();
+        return;
+    }
+
+    const authenticated = await isAuthenticated();
+
+    if (reqAuth && !authenticated) {
+        next({ name: 'login', query: { redirect: to.fullPath } });
+    } else if (reqGuest && authenticated) {
+        next({ name: 'dashboard' });
+    } else {
+        next();
+    }
+});
 
 export default router;

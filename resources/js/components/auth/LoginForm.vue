@@ -1,12 +1,14 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue';
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 import { login } from '../../api/auth';
 import IHButton from '../atoms/IHButton.vue';
 
 let email = ref('');
 let password = ref('');
 let loading = ref(false);
+
+const router = useRouter();
 
 let submitEnabled = computed(() => {
     return email.value.length > 0 && password.value.length > 0;
@@ -19,9 +21,13 @@ const submit = (event: Event) => {
 
     loading.value = true;
     login(email.value, password.value)
-        .then((response) => {
-            console.log(response);
-            // router.push({ name: 'dashboard' });
+        .then(() => {
+            // Current route has query redirect
+            if (router.currentRoute.value.query.redirect) {
+                router.push(router.currentRoute.value.query.redirect as string);
+            } else {
+                router.push({ name: 'dashboard' });
+            }
         })
         .catch((error) => {
             console.log(error);
