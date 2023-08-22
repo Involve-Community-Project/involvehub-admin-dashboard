@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: app-deployment
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            env: staging-app
+    template:
+        metadata:
+            name: app-pod
+            labels:
+                env: staging-app
+        spec:
+            volumes:
+                - name: app-vol
+                  persistentVolumeClaim:
+                      claimName: app-pvc
+            containers:
+                - name: app
+                  image: sail-8.2/app:latest
+                  imagePullPolicy: Never
+                  volumeMounts:
+                      - mountPath: /var/www
+                        name: app-vol

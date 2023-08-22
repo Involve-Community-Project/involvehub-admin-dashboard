@@ -62,7 +62,12 @@ class AuthenticationController extends Controller
         /** @var \App\Models\User|null $user * */
         $user = Auth::user();
 
-        $user->token()->revoke();
+        $token = $user->token();
+
+        $tokenRepository = app('Laravel\Passport\TokenRepository');
+        $refreshTokenRepository = app('Laravel\Passport\RefreshTokenRepository');
+        $tokenRepository->revokeAccessToken($token->id);
+        $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($token->id);
 
         return response(null, 204);
     }

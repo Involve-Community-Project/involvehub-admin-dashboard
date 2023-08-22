@@ -18,7 +18,7 @@ Route::get('/', function () {
     return view('app');
 });
 
-Route::get('/dashboard', function () {
+Route::get('/admin-dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -29,3 +29,5 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
+Route::view('/{any}', 'app')->where('any', '.*');

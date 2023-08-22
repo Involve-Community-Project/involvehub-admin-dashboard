@@ -1,6 +1,12 @@
 <script lang="ts" setup>
 import { RouterLink } from 'vue-router';
 import InvolveHubLogo from '../components/logos/InvolveHubTextLogo.vue';
+import IHSwitch from '../components/atoms/IHSwitch.vue';
+import IHButton from '../components/atoms/IHButton.vue';
+import { ref } from 'vue';
+import IHModal from '../components/IHModal.vue';
+
+const modal1Open = ref(false);
 
 const classes = {
     bg: {
@@ -544,13 +550,14 @@ const classes = {
                     v-for="value in values"
                     :key="value.name"
                 >
-                    <span class="text-sm" :class="value.textclass">{{
-                        value.shade
-                    }}</span>
+                    <span class="text-sm" :class="value.textclass">
+                        {{ value.shade }}
+                    </span>
                     <span
                         class="group-hover:opacity-100 opacity-0 z-10 transition-opacity absolute -bottom-5 text-xs p-1 bg-black text-white rounded"
-                        >{{ value.hex }}</span
                     >
+                        {{ value.hex }}
+                    </span>
                 </div>
             </div>
         </div>
@@ -559,25 +566,39 @@ const classes = {
         <hr />
         <h2 class="py-4 text-2xl font-bold">Buttons:</h2>
         <div class="w-full flex flex-row gap-4 flex-wrap">
-            <button class="btn">Hello</button>
-            <button class="btn" disabled>Hello</button>
-            <button class="btn-primary">Hello</button>
-            <button class="btn-primary" disabled>Hello</button>
-            <button class="btn-primary-outline">Hello</button>
-            <button class="btn-primary-outline" disabled>Hello</button>
-            <button class="btn-secondary">Hello</button>
-            <button class="btn-secondary" disabled>Hello</button>
-            <button class="btn-success">Hello</button>
-            <button class="btn-success" disabled>Hello</button>
-            <button class="btn-warning">Hello</button>
-            <button class="btn-warning" disabled>Hello</button>
-            <button class="btn-error">Hello</button>
-            <button class="btn-error" disabled>Hello</button>
-            <button class="btn-info">Hello</button>
-            <button class="btn-info" disabled>Hello</button>
-            <button class="btn-contrast">Hello</button>
-            <button class="btn-contrast" disabled>Hello</button>
-            <RouterLink to="/" class="btn-link"> Link </RouterLink>
+            <IHButton variant="text">Hello</IHButton>
+            <IHButton variant="text" disabled>Hello</IHButton>
+            <IHButton variant="primary">Hello</IHButton>
+            <IHButton variant="primary" disabled>Hello</IHButton>
+            <IHButton variant="primary-outline">Hello</IHButton>
+            <IHButton variant="primary-outline" disabled>Hello</IHButton>
+            <IHButton variant="secondary">Hello</IHButton>
+            <IHButton variant="secondary" disabled>Hello</IHButton>
+            <IHButton variant="success">Hello</IHButton>
+            <IHButton variant="success" disabled>Hello</IHButton>
+            <IHButton variant="warning">Hello</IHButton>
+            <IHButton variant="warning" disabled>Hello</IHButton>
+            <IHButton variant="error">Hello</IHButton>
+            <IHButton variant="error" disabled>Hello</IHButton>
+            <IHButton variant="info">Hello</IHButton>
+            <IHButton variant="info" disabled>Hello</IHButton>
+            <IHButton variant="contrast">Hello</IHButton>
+            <IHButton variant="contrast" disabled>Hello</IHButton>
+            <RouterLink to="/" class="btn-link">Link</RouterLink>
+            <hr class="w-full" />
+            <IHButton loading>Hello</IHButton>
+            <IHButton loading loading-position="left">Hello</IHButton>
+        </div>
+        <hr class="my-5" />
+        <h2 class="py-4 text-2xl font-bold">Switches:</h2>
+        <div class="w-full flex flex-row gap-4 flex-wrap">
+            <IHSwitch>Switch</IHSwitch>
+        </div>
+        <hr class="my-5" />
+        <h2 class="py-4 text-2xl font-bold">Modals & Dialogs:</h2>
+        <div class="w-full flex flex-row gap-4 flex-wrap">
+            <IHButton @click="() => (modal1Open = true)">Open modal</IHButton>
+            <IHModal v-model:open="modal1Open"></IHModal>
         </div>
         <hr class="my-5" />
         <h2 class="py-4 text-2xl font-bold">Inputs:</h2>

@@ -29,6 +29,7 @@ services:
             - minio
             - selenium
             - mailpit
+            - soketi
     mariadb:
         image: 'mariadb:10'
         ports:

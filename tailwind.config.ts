@@ -1,5 +1,6 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
+import containerQueriesPlugin from '@tailwindcss/container-queries';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -10,7 +11,8 @@ export default {
         './resources/**/*.ts',
         './resources/**/*.vue',
     ],
-    darkMode: 'media',
+    // darkMode: 'media',
+    darkMode: 'class',
     theme: {
         extend: {
             fontFamily: {
@@ -315,5 +317,5 @@ export default {
             },
         },
     },
-    plugins: [forms],
+    plugins: [forms, containerQueriesPlugin],
 };

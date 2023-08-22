@@ -1,5 +1,22 @@
 <script lang="ts" setup>
 import { RouterView } from 'vue-router';
+// import { checkAuth } from './api/auth';
+// import { finiteInterval } from './utils';
+
+// finiteInterval(
+//     ({ timer, iterations }: any) => {
+//         checkAuth()
+//             .then(() => {
+//                 console.log('User is logged in. ', iterations, timer);
+//             })
+//             .catch(() => {
+//                 console.log('User is not logged in.', iterations, timer);
+//             });
+//     },
+//     1500,
+//     1500,
+//     100
+// );
 </script>
 
 <template>
@@ -18,3 +35,5 @@ import { RouterView } from 'vue-router';
         </Transition>
     </RouterView>
 </template>
+
+<style lang="scss" scoped></style>

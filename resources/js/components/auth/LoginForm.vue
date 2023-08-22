@@ -7,21 +7,23 @@ import IHButton from '../atoms/IHButton.vue';
 let email = ref('');
 let password = ref('');
 let loading = ref(false);
+let error_message = ref('');
 
 const router = useRouter();
 
-let submitEnabled = computed(() => {
+const submitEnabled = computed(() => {
     return email.value.length > 0 && password.value.length > 0;
 });
 
-const submit = (event: Event) => {
-    console.log('submit');
-    console.log(event);
-    console.log(email, password);
+const showErrorMessage = computed(() => {
+    return error_message.value.length > 0;
+});
 
+const submit = () => {
     loading.value = true;
+    error_message.value = '';
     login(email.value, password.value)
-        .then(() => {
+        .then(async () => {
             // Current route has query redirect
             if (router.currentRoute.value.query.redirect) {
                 router.push(router.currentRoute.value.query.redirect as string);
@@ -30,10 +32,10 @@ const submit = (event: Event) => {
             }
         })
         .catch((error) => {
-            console.log(error);
+            console.log(error.response?.data?.message);
+            error_message.value = error.response?.data?.message;
         })
         .finally(() => {
-            console.log('finally');
             loading.value = false;
         });
 };
@@ -42,22 +44,31 @@ const submit = (event: Event) => {
 <template>
     <form
         @submit.prevent="submit"
-        class="flex flex-col items-center justify-center w-full max-w-2xl mt-4"
+        class="flex flex-col items-center justify-center w-full max-w-2xl mt-4 gap-4"
     >
-        <input
-            type="email"
-            class="input peer mb-4"
-            placeholder="Email"
-            v-model="email"
-            required
-        />
-        <input
-            type="password"
-            class="input mb-4"
-            placeholder="Password"
-            v-model="password"
-            required
-        />
+        <div class="w-full">
+            <input
+                type="email"
+                class="input"
+                placeholder="Email"
+                v-model="email"
+                required
+            />
+        </div>
+        <div class="w-full">
+            <input
+                type="password"
+                class="input"
+                placeholder="Password"
+                v-model="password"
+                required
+            />
+        </div>
+        <div class="w-full">
+            <span v-if="showErrorMessage" class="block text-error test-sm m">
+                {{ error_message }}
+            </span>
+        </div>
         <IHButton
             type="submit"
             class="w-full"

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: db-deployment
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            env: staging-db
+    template:
+        metadata:
+            name: db-pod
+            labels:
+                env: staging-db
+        spec:
+            volumes:
+                - name: db-vol
+                  persistentVolumeClaim:
+                      claimName: db-pvc
+            containers:
+                - name: database
+                  image: mariadb:10
+                  imagePullPolicy: Never
+                  volumeMounts:
+                      - mountPath: /var/lib/mysql
+                        name: db-vol
+                  env:
+                      - name: MYSQL_ROOT_PASSWORD
+                        value: password
+                      - name: MYSQL_DATABASE
+                        value: involvehub_admin_dashboard
+                      - name: MYSQL_USER
+                        value: sail
+                      - name: MYSQL_PASSWORD
+                        value: password
+

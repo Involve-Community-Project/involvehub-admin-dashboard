@@ -6,19 +6,16 @@ import {
     logout_url,
     refresh_token_url,
     user_url,
+    change_password_url,
 } from './endpoints';
 
 const isAuthenticated = (): Promise<boolean> => {
     // return localStorage.getItem('token') !== null;
     return checkAuth()
         .then((response) => {
-            console.log('Check auth response', response);
-            console.log('Check auth response status', response.status);
-
             return response.status === 200;
         })
-        .catch((error) => {
-            console.log(error);
+        .catch(() => {
             return false;
         })
         .finally(() => {
@@ -44,6 +41,8 @@ const currentUser = () => {
         axios
             .get(user_url)
             .then((response) => {
+                // const userStore = useUserStore();
+                // userStore.setUser(response.data);
                 resolve(response);
             })
             .catch((error) => {
@@ -88,6 +87,40 @@ const refreshAccessToken = () => {
     });
 };
 
+const changePassword = (
+    current_password: string,
+    new_password: string,
+    new_password_confirmation: string
+) => {
+    return new Promise<AxiosResponse<any, any>>((resolve, reject) => {
+        axios
+            .post(change_password_url, {
+                current_password: current_password,
+                password: new_password,
+                password_confirmation: new_password_confirmation,
+            })
+            .then((response) => {
+                resolve(response);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+};
+
+const requestPasswordReset = (email: string) => {
+    return new Promise<AxiosResponse<any, any>>((resolve, reject) => {
+        axios
+            .post('/api/forgot-password', { email })
+            .then((response) => {
+                resolve(response);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+};
+
 const logout = () => {
     axios
         .post(logout_url)
@@ -95,9 +128,7 @@ const logout = () => {
             localStorage.removeItem('token');
             delete axios.defaults.headers['Authorization'];
         })
-        .catch((error) => {
-            console.log(error);
-        });
+        .catch(() => {});
 };
 
 export {
@@ -106,5 +137,7 @@ export {
     currentUser,
     login,
     refreshAccessToken,
+    changePassword,
     logout,
+    requestPasswordReset,
 };

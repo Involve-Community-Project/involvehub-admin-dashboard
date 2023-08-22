@@ -76,7 +76,7 @@ const btnClass = computed(() => {
         <template v-if="props.loading && props.loadingPosition === 'cover'">
             <div class="flex flex-nowrap items-center justify-center">
                 <IconRingResize class="" />
-                <span> &#8288; </span>
+                <span>&#8288;</span>
             </div>
         </template>
     </button>

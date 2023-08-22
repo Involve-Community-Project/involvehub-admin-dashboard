@@ -38,4 +38,21 @@ class RegisteredUserController extends Controller
 
         return response()->noContent();
     }
+
+    public function editContactInfo(Request $request): Response
+    {
+        $user = $request->user();
+
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['sometimes', 'required', 'string', 'email', 'max:255', 'unique:' . User::class . ',email,' . $user->id],
+        ]);
+
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email ?? $user->email,
+        ]);
+
+        return response()->noContent();
+    }
 }

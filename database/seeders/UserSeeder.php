@@ -17,8 +17,8 @@ class UserSeeder extends Seeder
             'name' => env('ADMIN_NAME', 'Test User'),
             'email' => env('ADMIN_EMAIL', 'test@example.com'),
             'password' => bcrypt(env('ADMIN_PASSWORD', 'password')),
-            // 'email_verified_at' => now(),
-            'email_verified_at' => null,
+            'email_verified_at' => now(),
+            // 'email_verified_at' => null,
         ]);
 
         // Regular users
