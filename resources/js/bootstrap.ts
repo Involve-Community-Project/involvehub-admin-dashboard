@@ -5,17 +5,29 @@
  */
 
 import axios from 'axios';
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
+import {
+    onResponseFulfilled,
+    onResponseRejected,
+} from './interceptors/response-interceptor';
+import {
+    onRequestFulfilled,
+    onRequestRejected,
+} from './interceptors/request-interceptor';
 
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+axios.defaults.headers.common['Content-Type'] = 'application/json';
+axios.defaults.headers.common['Accept'] = 'application/json';
+
+axios.interceptors.request.use(onRequestFulfilled, onRequestRejected);
+axios.interceptors.response.use(onResponseFulfilled, onResponseRejected);
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
-
-import Echo from 'laravel-echo';
-import Pusher from 'pusher-js';
 
 export const pusher = Pusher;
 export const echo = new Echo({
@@ -34,5 +46,4 @@ export const echo = new Echo({
 // Example (Public Channel)
 echo.channel('public').listen('.public.event', (e: any) => {
     console.log(e);
-    alert(e.message);
 });

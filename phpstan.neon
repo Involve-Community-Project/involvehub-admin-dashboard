@@ -14,7 +14,11 @@ parameters:
     # Level 9 is the highest level
     level: 5
 
-#    ignoreErrors:
+    ignoreErrors:
+        -
+            message: "#^Undefined variable\\: \\$this$#"
+            paths:
+                - tests/*
 #        - '#PHPDoc tag @var#'
 #
 #    excludePaths:

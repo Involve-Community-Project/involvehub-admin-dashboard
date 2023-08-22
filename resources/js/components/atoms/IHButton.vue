@@ -14,6 +14,8 @@ const props = defineProps({
     variant: {
         type: String as PropType<
             | 'link'
+            | 'text'
+            | 'text-outline'
             | 'primary'
             | 'primary-outline'
             | 'secondary'
@@ -37,6 +39,10 @@ const props = defineProps({
 
 const btnClass = computed(() => {
     switch (props.variant) {
+        case 'text':
+            return 'btn';
+        case 'text-outline':
+            return 'btn base-outline';
         case 'link':
             return 'btn btn-link';
         case 'primary':
@@ -63,13 +69,14 @@ const btnClass = computed(() => {
 <template>
     <button
         :type="props.type"
-        class="flex justify-center items-center gap-4"
+        class="flex justify-center items-center gap-2"
         :class="btnClass"
         :disabled="props.disabled"
     >
         <template v-if="props.loading && props.loadingPosition === 'left'">
             <IconRingResize class="" />
         </template>
+        <slot name="icon"></slot>
         <slot v-if="!(props.loading && props.loadingPosition === 'cover')" />
         <template v-if="props.loading && props.loadingPosition === 'right'">
             <IconRingResize class="" />
@@ -77,7 +84,7 @@ const btnClass = computed(() => {
         <template v-if="props.loading && props.loadingPosition === 'cover'">
             <div class="flex flex-nowrap items-center justify-center">
                 <IconRingResize class="" />
-                <span> &#8288; </span>
+                <span>&#8288;</span>
             </div>
         </template>
     </button>

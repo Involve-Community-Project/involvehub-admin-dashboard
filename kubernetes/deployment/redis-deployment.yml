@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: redis-deployment
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            env: staging-redis
+    template:
+        metadata:
+            name: redis-pod
+            labels:
+                env: staging-redis
+        spec:
+            volumes:
+                - name: redis-vol
+                  persistentVolumeClaim:
+                      claimName: redis-pvc
+            containers:
+                - name: redis
+                  image: redis:alpine
+                  imagePullPolicy: Never
+                  volumeMounts:
+                      - mountPath: /data
+                        name: redis-vol

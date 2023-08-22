@@ -1,53 +1,13 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
-import AuthLayout from '@/js/layouts/AuthLayout.vue';
-import DashboardLayout from '@/js/layouts/DashboardLayout.vue';
+import { createRouter, createWebHistory } from 'vue-router';
+import { authRoutes } from './auth-routes';
+import { dashboardRoutes } from './dashboard-routes';
+import { isAuthenticated } from '../api/auth';
 
 const router = createRouter({
-    // history: createWebHistory(import.meta.env.BASE_URL),
-    history: createWebHashHistory(),
+    history: createWebHistory(),
     routes: [
-        {
-            path: '/',
-            name: 'auth',
-            component: AuthLayout,
-            redirect: '/login',
-            children: [
-                {
-                    path: '/login',
-                    name: 'login',
-                    component: () => import('@/js/pages/LoginPage.vue'),
-                },
-                {
-                    path: '/forgot-password',
-                    name: 'forgot-password',
-                    component: () =>
-                        import('@/js/pages/ForgotPasswordPage.vue'),
-                },
-            ],
-        },
-        {
-            path: '/',
-            name: 'home',
-            component: DashboardLayout,
-            redirect: '/dashboard',
-            children: [
-                {
-                    path: '/dashboard',
-                    name: 'dashboard',
-                    component: () => import('@/js/pages/DashboardPage.vue'),
-                },
-                {
-                    path: '/companies',
-                    name: 'companies',
-                    component: () => import('@/js/pages/CompaniesPage.vue'),
-                },
-                {
-                    path: '/account',
-                    name: 'account',
-                    component: () => import('@/js/pages/AccountPage.vue'),
-                },
-            ],
-        },
+        authRoutes,
+        dashboardRoutes,
         {
             path: '/style-guide',
             name: 'style-guide',
@@ -56,6 +16,33 @@ const router = createRouter({
     ],
 });
 
-// router.beforeEach((to, from, next) => {});
+router.beforeEach(async (to) => {
+    const dialogs = document.querySelectorAll(
+        'dialog[open]'
+    ) as NodeListOf<HTMLDialogElement>;
+
+    if (dialogs.length > 0) {
+        dialogs.forEach((dialog) => dialog.close());
+        return false;
+    }
+
+    const reqAuth = to.matched.some((record) => record.meta.requiresAuth);
+    const reqGuest = to.matched.some((record) => record.meta.requiresGuest);
+    const authenticated = await isAuthenticated();
+
+    if (!reqAuth && !reqGuest) {
+        return;
+    }
+
+    if (reqAuth && !authenticated) {
+        return { name: 'login', query: { redirect: to.fullPath } };
+    }
+
+    if (reqGuest && authenticated) {
+        return { name: 'dashboard' };
+    }
+
+    return;
+});
 
 export default router;

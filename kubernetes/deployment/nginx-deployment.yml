@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: nginx-deployment
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            env: staging-nginx
+    template:
+        metadata:
+            name: nginx-pod
+            labels:
+                env: staging-nginx
+        spec:
+            volumes:
+                - name: nginx-vol
+                  persistentVolumeClaim:
+                      claimName: nginx-pvc
+            containers:
+                - name: nginx
+                  image: nginx:alpine
+                  imagePullPolicy: Never
+                  volumeMounts:
+                      - mountPath: /var/www
+                        name: nginx-vol

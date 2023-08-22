@@ -10,12 +10,9 @@ let submitEnabled = computed(() => {
     return email.value.length == 0;
 });
 
-const submit = () => {
-    console.log('submit');
-};
+const submit = () => {};
 
 const cancel = () => {
-    console.log('cancel');
     router.push({ name: 'login' });
 };
 </script>

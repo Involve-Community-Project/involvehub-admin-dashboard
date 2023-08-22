@@ -21,7 +21,9 @@
 
 .fade_slide-enter-active,
 .fade_slide-leave-active {
-    transition: opacity 0.35s ease-in-out, transform 0.35s ease-in-out;
+    transition:
+        opacity 0.35s ease-in-out,
+        transform 0.35s ease-in-out;
 }
 
 .fade_slide-enter-from,
